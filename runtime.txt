@@ -1,0 +1,1 @@
+python-3.11.4  # Versión exacta (3.11.4) o solo mayor (3.11)
