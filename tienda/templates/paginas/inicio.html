@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block contenido %}
+
+<!-- Bienvenida principal -->
+<div class="row align-items-center my-5">
+    {% comment %}
+    <div class="col-md-6">
+        <img src="{% static 'images/french-school.jpg' %}" class="img-fluid rounded-3 shadow" alt="Escuela de francés">
+    </div>
+    {% endcomment %}
+    <div class="col-md-6">
+        <div class="h-100 p-4 bg-primary text-white border rounded-3">
+            <h2 class="mb-3">Bienvenue à L'École de Français</h2>
+            <p>
+                Apprenez à parler français avec confiance grâce à nos cours interactifs,
+                ressources audio et exercices pratiques.
+            </p>
+            <a href="{% url 'ejercicio1' %}" class="btn btn-outline-light mt-3">Commencer maintenant</a>
+        </div>
+    </div>
+</div>
+
+<!-- Sección de recursos -->
+<div id="exercises" class="row align-items-stretch gy-4 my-5">
+    <div class="col-md-6">
+        <div class="h-100 p-4 bg-light border rounded-3">
+            <h3>📚  Lire et écrire 1</h3>
+            <p>
+                Améliorez votre grammaire, vocabulaire et compréhension écrite avec des exercices interactifs.
+            </p>
+            <a href="{% url 'ejercicio1' %}" target="_blank" class="btn btn-primary">
+                Voir les exercices
+            </a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="h-100 p-4 bg-light border rounded-3">
+            <h3>📚  Lire et écrire 2</h3>
+            <p>
+                Améliorez votre grammaire, vocabulaire et compréhension écrite avec des exercices interactifs.
+            </p>
+            <a href="{% url 'ejercicio2' %}" target="_blank" class="btn btn-primary">
+                Voir les exercices
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

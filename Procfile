@@ -1,0 +1,1 @@
+web: gunicorn cuyzin.wsgi --log-file -

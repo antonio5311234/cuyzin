@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block titulo %}Ejercicio 1B1{% endblock %}
+
+{% block contenido %}
+
+<div style="background-color: #f2f2f2; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+    <h2 style="font-weight: bold;">Restaurant Iberia</h2>
+    <p>Une cuisine de qualité est le gage d’une bonne santé ! Nous n’utilisons que des produits frais et nous nous
+        appliquons à préparer nos plats avec le plus grand soin, selon des recettes espagnoles traditionnelles.</p>
+    <p>Nos tapas font la renommée de notre restaurant : petites spécialités en entrée, à combiner librement, dès 7.–.
+        Plats principaux de viande ou de poisson à partir de 22.–.</p>
+    <p>Notre restaurant qui se trouve à Môtier vous ravira par son ambiance agréable et sa vue sur le lac de Morat.</p>
+    <p>Visitez notre site <strong>www.iberia-motier.ch</strong> pour plus d’informations ;
+        pour réserver une table, appelez le <strong>021 462 89 98.</strong></p>
+</div>
+
+<div style="border: 1px solid #000; padding: 20px; border-radius: 10px; max-width: 600px;">
+    <h3>Restaurant Iberia</h3>
+    {% if mensaje %}
+        <div class="alert alert-success" role="alert">
+            {{ mensaje }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'ejercicio2' %}" class="needs-validation" novalidate id="formulario">
+
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label"><strong>{{ field.label }} :</strong></label>
+                {{ field }}
+                {% if form.is_bound %}
+                    {% if field.errors %}
+                        <div class="invalid-feedback" style="display:block;">
+                            ❌ {{ field.errors.0 }} 😞
+                        </div>
+                    {% else %}
+                        <div class="valid-feedback" style="display:block;">
+                            ✅ Bien rempli ! 😊
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+
+        <button type="submit" class="btn btn-success" style="margin-top: 20px;">Enregistrer</button>
+        <button type="button" class="btn btn-secondary" style="margin-top: 20px; margin-left: 10px;" onclick="limpiarFormulario()">Réinitialiser</button>
+        <a href="{% url 'ejercicio1' %}" class="btn btn-primary" style="margin-top: 20px; margin-left: 10px;">← Retour</a>
+    </form>
+</div>
+
+<!-- Validación con Bootstrap -->
+<script>
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
+    function limpiarFormulario() {
+    const form = document.getElementById("formulario");
+    
+    // Limpiar todos los inputs, textareas y selects
+    const fields = form.querySelectorAll('input, textarea, select');
+
+    fields.forEach(function(field) {
+        if (field.name === 'csrfmiddlewaretoken') return;
+        // Limpiar valores según tipo
+        if (field.type === 'checkbox' || field.type === 'radio') {
+            field.checked = false;
+        } else {
+            field.value = '';
+        }
+
+        // Quitar clases de validación visuales
+        field.classList.remove('is-valid');
+        field.classList.remove('is-invalid');
+    });
+
+    // Quitar clases globales de validación
+    form.classList.remove('was-validated');
+
+    // Ocultar todos los mensajes de feedback
+    const feedbacks = form.querySelectorAll('.valid-feedback, .invalid-feedback');
+    feedbacks.forEach(function(el) {
+        el.style.display = 'none';
+    });
+}
+
+</script>
+
+{% endblock %}
+
