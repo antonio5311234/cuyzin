@@ -24,7 +24,7 @@ def ejercicio1(request):
     else:
         form = Ejercicio1Form()
     
-    return render(request, 'plantilla/ejercicio1.html', {
+    return render(request, 'plantilla/Ejercicio1.html', {
         'form': form,
         'mensaje': mensaje,
     })
@@ -39,7 +39,7 @@ def ejercicio2(request):
     else:
         form = Ejercicio2Form()
     
-    return render(request, 'plantilla/ejercicio2.html', {
+    return render(request, 'plantilla/Ejercicio2.html', {
         'form': form,
         'mensaje': mensaje,
     })
