@@ -15,17 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.urls import include
-from django.http import JsonResponse
-from tienda.views import health_check_view
-
-
-health_check_view = lambda request: JsonResponse({"status": "ok"})
+from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('tienda.urls')),
-    path('healthz/', health_check_view, name='health-check'),
-    
+    path('', include('tienda.urls')),  # Incluye las URLs de tu app
+    path('healthz/', lambda r: JsonResponse({"status": "ok"})),
 ]
