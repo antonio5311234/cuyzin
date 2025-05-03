@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '%2%n5jn-3a-@t730z##78x%3oz3$&^j60n+#56onx$mjiclo4=' 
 
 # ⚠️ Cambia esto en Render a False
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = False
 
 # Configuración de hosts permitidos
 ALLOWED_HOSTS = [
