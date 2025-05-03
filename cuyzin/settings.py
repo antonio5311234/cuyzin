@@ -2,9 +2,9 @@
 Django settings for cuyzin project.
 Production-ready configuration for Render.com
 """
-
-from pathlib import Path
 import os
+from pathlib import Path
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ✅ TU CLAVE DIRECTA (el color naranja es normal)
