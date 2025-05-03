@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '%2%n5jn-3a-@t730z##78x%3oz3$&^j60n+#56onx$mjiclo4=' 
 
 # ⚠️ Cambia esto en Render a False
-DEBUG = False
+DEBUG = True
 
 # Configuración de hosts permitidos
 ALLOWED_HOSTS = [
@@ -128,3 +128,17 @@ if not DEBUG:
     X_FRAME_OPTIONS = 'DENY'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configuración específica para Render
+if 'RENDER' in os.environ:
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.getenv('DATABASE_URL'),
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+    
+    # Asegura archivos estáticos
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
