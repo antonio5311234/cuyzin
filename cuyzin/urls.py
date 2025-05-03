@@ -17,9 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from django.http import JsonResponse
+from tienda.views import health_check_view
+
+
+health_check_view = lambda request: JsonResponse({"status": "ok"})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('tienda.urls')),
+    path('healthz/', health_check_view, name='health-check'),
     
 ]

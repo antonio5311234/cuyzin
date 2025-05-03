@@ -2,6 +2,12 @@ from django.shortcuts import render, redirect
 from .forms import Ejercicio1Form
 from .forms import Ejercicio2Form
 
+from django.http import JsonResponse
+
+
+def health_check_view(request):
+    return JsonResponse({"status": "ok"})
+
 def inicio(request):
     return render(request, 'paginas/inicio.html')
 
