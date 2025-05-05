@@ -23,7 +23,7 @@ class Ejercicio1Form(forms.ModelForm):
             self.add_error('Cuisine', 'Cuisine incorrecte.')
         if cleaned_data.get('Spécialité') and cleaned_data.get('Spécialité').lower() != 'cuisine de pékin':
             self.add_error('Spécialité', 'Spécialité incorrecte.')
-        if cleaned_data.get('Prix_des_plats_principaux') and cleaned_data.get('Prix_des_plats_principaux').lower() != 'entre 12 et 21':
+        if cleaned_data.get('Prix_des_plats_principaux') and cleaned_data.get('Prix_des_plats_principaux').lower() != 'entre 12 CHF et 21 CHF':
             self.add_error('Prix_des_plats_principaux', 'Prix incorrect.')
         if cleaned_data.get('Vue') and cleaned_data.get('Vue').lower() != 'sur le lac léman':
             self.add_error('Vue', 'Vue incorrecte.')
@@ -55,7 +55,7 @@ class Ejercicio2Form(forms.ModelForm):
             self.add_error('Cuisine', 'Cuisine incorrecte.')
         if cleaned_data.get('Spécialité') and cleaned_data.get('Spécialité').lower() != 'les tapas':
             self.add_error('Spécialité', 'Spécialité incorrecte.')
-        if cleaned_data.get('Prix_des_plats_principaux') and cleaned_data.get('Prix_des_plats_principaux').lower() != 'dès 22':
+        if cleaned_data.get('Prix_des_plats_principaux') and cleaned_data.get('Prix_des_plats_principaux').lower() != 'dès 22 CHF':
             self.add_error('Prix_des_plats_principaux', 'Prix incorrect.')
         if cleaned_data.get('Vue') and cleaned_data.get('Vue').lower() != 'sur le lac de Morat':
             self.add_error('Vue', 'Vue incorrecte.')
