@@ -7,7 +7,8 @@ class Ejercicio1(models.Model):
     Spécialité = models.CharField(max_length=100)
     Prix_des_plats_principaux = models.CharField(max_length=50)
     Vue = models.CharField(max_length=100)
-    Réservations = models.CharField()
+    Réservations = models.CharField(max_length=100)
+
 
     def __str__(self):
         return self.nombre
@@ -19,7 +20,8 @@ class Ejercicio2(models.Model):
     Spécialité = models.CharField(max_length=100)
     Prix_des_plats_principaux = models.CharField(max_length=50)
     Vue = models.CharField(max_length=100)
-    Réservations = models.CharField()
+    Réservations = models.CharField(max_length=100)
+
 
     def __str__(self):
         return self.nombre
