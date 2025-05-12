@@ -8,20 +8,34 @@
     <h2 style="font-weight: bold;">Restaurant Ming</h2>
     <p>Le restaurant Ming à Rolle offre à ses clients une atmosphère unique et une cuisine chinoise exquise.
         La cuisine classique de Pékin fait partie de nos spécialités. Vous trouverez dans notre carte riche et
-        variée également des plats originaires du nord-ouest de la Chine ainsi que du Tibet. Grand choix de mets végétariens.</p>
-    <p><strong>Prix raisonnables:</strong> plats principaux entre 12 CHF et 21 CHF, entrées et accompagnements dès 4 CHF.</p>
-    <p>Grande salle spacieuse avec vue sur le lac Léman et salles séparées pour réceptions privées et évènements particuliers.
+        variée également des plats originaires du nord-ouest de la Chine ainsi que du Tibet. Grand choix de mets
+        végétariens.</p>
+    <p><strong>Prix raisonnables:</strong> plats principaux entre 12 CHF et 21 CHF, entrées et accompagnements dès 4
+        CHF.</p>
+    <p>Grande salle spacieuse avec vue sur le lac Léman et salles séparées pour réceptions privées et évènements
+        particuliers.
         Nombreuses places de parc à disposition.</p>
-    <p>Réservations de tables dès 10h30 au 021 825 10 66. Pour des réservations pour des groupes et évènements particuliers,
-        veuillez nous contacter par e-mail: <strong>info@restaurantming.ch</strong>, afin de recevoir nos offres et propositions.</p>
+    <p>Réservations de tables dès 10h30 au 021 825 10 66. Pour des réservations pour des groupes et évènements
+        particuliers,
+        veuillez nous contacter par e-mail: <strong>info@restaurantming.ch</strong>, afin de recevoir nos offres et
+        propositions.</p>
 </div>
 
 <div style="border: 1px solid #000; padding: 20px; border-radius: 10px; max-width: 600px;">
     <h3>Restaurant Ming</h3>
     {% if mensaje %}
-        <div class="alert alert-success" role="alert">
-            {{ mensaje }}
-        </div>
+    <div class="alert alert-success" role="alert">
+        {{ mensaje }}
+    </div>
+    {% endif %}
+    {% if errores %}
+    <div class="alert alert-warning mt-3">
+        <ul>
+            {% for error in errores %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     {% endif %}
 
     <form method="post" action="{% url 'ejercicio1' %}" class="needs-validation" novalidate id="formulario">
@@ -30,27 +44,29 @@
         {% csrf_token %}
 
         {% for field in form %}
-            <div class="mb-3">
-                <label for="{{ field.id_for_label }}" class="form-label"><strong>{{ field.label }} :</strong></label>
-                {{ field }}
-                {% if form.is_bound %}
-                    {% if field.errors %}
-                        <div class="invalid-feedback" style="display:block;">
-                            ❌ {{ field.errors.0 }} 😞
-                        </div>
-                    {% else %}
-                        <div class="valid-feedback" style="display:block;">
-                            ✅ Bien rempli ! 😊
-                        </div>
-                    {% endif %}
-                {% endif %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label"><strong>{{ field.label }} :</strong></label>
+            {{ field }}
+            {% if form.is_bound %}
+            {% if field.errors %}
+            <div class="invalid-feedback" style="display:block;">
+                ❌ {{ field.errors.0 }} 😞
             </div>
+            {% else %}
+            <div class="valid-feedback" style="display:block;">
+                ✅ Bien rempli ! 😊
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
         {% endfor %}
-        
+
 
         <button type="submit" class="btn btn-success" style="margin-top: 20px;">Enregistrer</button>
-        <button type="button" class="btn btn-secondary" style="margin-top: 20px; margin-left: 10px;" onclick="limpiarFormulario()">Réinitialiser</button>
-        <a href="{% url 'ejercicio2' %}" class="btn btn-primary" style="margin-top: 20px; margin-left: 10px;">Exercice suivant</a>
+        <button type="button" class="btn btn-secondary" style="margin-top: 20px; margin-left: 10px;"
+            onclick="limpiarFormulario()">Réinitialiser</button>
+        <a href="{% url 'ejercicio2' %}" class="btn btn-primary" style="margin-top: 20px; margin-left: 10px;">Exercice
+            suivant</a>
     </form>
 
 
@@ -74,36 +90,34 @@
             })
     })();
     function limpiarFormulario() {
-    const form = document.getElementById("formulario");
-    
-    // Limpiar todos los inputs, textareas y selects
-    const fields = form.querySelectorAll('input, textarea, select');
+        const form = document.getElementById("formulario");
 
-    fields.forEach(function(field) {
-        if (field.name === 'csrfmiddlewaretoken') return;
-        // Limpiar valores según tipo
-        if (field.type === 'checkbox' || field.type === 'radio') {
-            field.checked = false;
-        } else {
-            field.value = '';
-        }
+        // Limpiar todos los inputs, textareas y selects
+        const fields = form.querySelectorAll('input, textarea, select');
 
-        // Quitar clases de validación visuales
-        field.classList.remove('is-valid');
-        field.classList.remove('is-invalid');
-    });
+        fields.forEach(function (field) {
+            if (field.name === 'csrfmiddlewaretoken') return;
+            // Limpiar valores según tipo
+            if (field.type === 'checkbox' || field.type === 'radio') {
+                field.checked = false;
+            } else {
+                field.value = '';
+            }
 
-    // Quitar clases globales de validación
-    form.classList.remove('was-validated');
+            // Quitar clases de validación visuales
+            field.classList.remove('is-valid');
+            field.classList.remove('is-invalid');
+        });
 
-    // Ocultar todos los mensajes de feedback
-    const feedbacks = form.querySelectorAll('.valid-feedback, .invalid-feedback');
-    feedbacks.forEach(function(el) {
-        el.style.display = 'none';
-    });
-}
+        // Quitar clases globales de validación
+        form.classList.remove('was-validated');
+
+        // Ocultar todos los mensajes de feedback
+        const feedbacks = form.querySelectorAll('.valid-feedback, .invalid-feedback');
+        feedbacks.forEach(function (el) {
+            el.style.display = 'none';
+        });
+    }
 </script>
 
 {% endblock %}
-
-
