@@ -32,8 +32,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'tienda',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -131,3 +136,6 @@ if not DEBUG:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración específica para Render
+LOGIN_REDIRECT_URL = 'inicio'  # o la vista que quieras tras iniciar sesión
+LOGOUT_REDIRECT_URL = 'inicio'  # o redirigir a inicio
+LOGIN_URL = 'login'  # esto puede ayudarte a redirigir cuando no estás logueado

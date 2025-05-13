@@ -21,6 +21,9 @@ from django.http import JsonResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('tienda.urls')),  # Incluye las URLs de tu app
+    path('', include('tienda.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),  # Incluye las URLs de tu app
     path('healthz/', lambda r: JsonResponse({"status": "ok"})),
+    
+
 ]
