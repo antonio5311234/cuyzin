@@ -23,11 +23,13 @@
 
 <div style="border: 1px solid #000; padding: 20px; border-radius: 10px; max-width: 600px;">
     <h3>Restaurant Ming</h3>
+
     {% if mensaje %}
     <div class="alert alert-success" role="alert">
         {{ mensaje }}
     </div>
     {% endif %}
+
     {% if errores %}
     <div class="alert alert-warning mt-3">
         <ul>
@@ -38,86 +40,112 @@
     </div>
     {% endif %}
 
+    <!-- CAMBIAR ESTA LÍNEA: añade id="formulario" al form -->
     <form method="post" action="{% url 'ejercicio1' %}" class="needs-validation" novalidate id="formulario">
-
-
         {% csrf_token %}
 
-        {% for field in form %}
-        <div class="mb-3">
-            <label for="{{ field.id_for_label }}" class="form-label"><strong>{{ field.label }} :</strong></label>
-            {{ field }}
-            {% if form.is_bound %}
-            {% if field.errors %}
-            <div class="invalid-feedback" style="display:block;">
-                ❌ {{ field.errors.0 }} 😞
-            </div>
-            {% else %}
-            <div class="valid-feedback" style="display:block;">
-                ✅ Bien rempli ! 😊
-            </div>
-            {% endif %}
-            {% endif %}
+        <!-- Checkbox separado -->
+        <div class="form-check mb-3">
+            {{ form.guardar_historial }}
+            <label class="form-check-label" for="{{ form.guardar_historial.id_for_label }}">
+                {{ form.guardar_historial.label }}
+            </label>
         </div>
+
+        <!-- Campos restantes -->
+        {% for field in form %}
+        {% if field.name != 'guardar_historial' %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label"><strong>{{ field.label }}:</strong></label>
+            {{ field }}
+            <div class="invalid-feedback" style="display:block;">
+                {% if field.errors %}
+                ❌ {{ field.errors.0 }} 😞
+                {% endif %}
+            </div>
+            <div class="valid-feedback" style="display:block;">
+                {% if not field.errors %}
+                ✅ Bien rempli ! 😊
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
         {% endfor %}
-
-
+        {% if request.user.username == "marilyn" %}
         <button type="submit" class="btn btn-success" style="margin-top: 20px;">Enregistrer</button>
+        {% endif %}
         <button type="button" class="btn btn-secondary" style="margin-top: 20px; margin-left: 10px;"
             onclick="limpiarFormulario()">Réinitialiser</button>
         <a href="{% url 'ejercicio2' %}" class="btn btn-primary" style="margin-top: 20px; margin-left: 10px;">Exercice
             suivant</a>
     </form>
-
-
 </div>
 
 <script>
-    // Bootstrap validation
+    // Validación Bootstrap
     (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
 
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
     })();
+
+    // Función para limpiar campos del formulario
     function limpiarFormulario() {
         const form = document.getElementById("formulario");
 
-        // Limpiar todos los inputs, textareas y selects
-        const fields = form.querySelectorAll('input, textarea, select');
+        form.querySelectorAll('input, textarea, select').forEach(field => {
+            const nombreCampo = field.name;
 
-        fields.forEach(function (field) {
-            if (field.name === 'csrfmiddlewaretoken') return;
-            // Limpiar valores según tipo
-            if (field.type === 'checkbox' || field.type === 'radio') {
-                field.checked = false;
-            } else {
-                field.value = '';
+            // Evita limpiar CSRF, checkbox y los campos protegidos
+            if (
+                nombreCampo !== 'csrfmiddlewaretoken' &&
+                nombreCampo !== 'guardar_historial' &&
+                nombreCampo !== 'comentario' &&
+                nombreCampo !== 'nota'
+            ) {
+                if (field.type === 'checkbox' || field.type === 'radio') {
+                    field.checked = false;
+                } else {
+                    field.value = '';
+                }
+                field.removeAttribute('readonly');
+                field.removeAttribute('disabled');
+                field.classList.remove('is-valid', 'is-invalid');
             }
-
-            // Quitar clases de validación visuales
-            field.classList.remove('is-valid');
-            field.classList.remove('is-invalid');
         });
 
-        // Quitar clases globales de validación
         form.classList.remove('was-validated');
-
-        // Ocultar todos los mensajes de feedback
-        const feedbacks = form.querySelectorAll('.valid-feedback, .invalid-feedback');
-        feedbacks.forEach(function (el) {
-            el.style.display = 'none';
-        });
+        form.querySelectorAll('.valid-feedback, .invalid-feedback').forEach(el => el.style.display = 'none');
     }
+
+    // Control automático del checkbox
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkbox = document.getElementById('guardar_historial');
+        const form = document.getElementById("formulario");
+
+        if (checkbox && form) {
+            checkbox.addEventListener("change", function () {
+                if (checkbox.checked) {
+                    console.log("✅ Checkbox marcado: se enviará el formulario.");
+                    form.noValidate = true;  // Omitimos validación si quieres
+                    form.submit();
+                } else {
+                    console.log("🔄 Checkbox desmarcado: limpiando y desbloqueando formulario.");
+                    limpiarFormulario(); // Limpia
+                }
+            });
+        }
+    });
 </script>
+
 
 {% endblock %}
